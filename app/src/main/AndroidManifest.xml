@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Timer">
         <activity
+            android:screenOrientation="fullSensor"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

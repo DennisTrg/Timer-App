@@ -2,6 +2,7 @@ package com.example.timer
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
@@ -36,11 +37,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         startButton.setOnClickListener(this)
         pauseButton.setOnClickListener(this)
         stopButton.setOnClickListener(this)
-//        textView1.setText("You spend $resultSecond on last time")
         checkSharedPreferences()
 
+        if (savedInstanceState != null) {
+            chronometer.base = savedInstanceState.getLong("key")
+            chronometer.start()
+        }
 
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLong("key", chronometer.base)
+    }
+
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        chronometer.base = savedInstanceState.getLong("key", 0)
+//
+//    }
 
     override fun onClick(p0: View?) {
         when( p0?.id) {
@@ -49,7 +64,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     chronometer.base = SystemClock.elapsedRealtime() - pause
                     chronometer.start()
                     running = true
-
                 }
             }
             R.id.pauseButton -> {
